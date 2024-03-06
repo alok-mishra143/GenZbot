@@ -4,7 +4,7 @@ import React from "react";
 
 const GenzBotFooter = () => {
   return (
-    <footer className=" h-screen text-white p-8" id="contact">
+    <footer className="  text-white p-8" id="contact">
       <div className="mb-8">
         <p className="text-lg font-bold mb-2">Contact GenzBot:</p>
         <ul className="flex space-x-4">
