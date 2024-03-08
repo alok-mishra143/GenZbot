@@ -2,6 +2,7 @@ import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { CreateUser, deleteUser } from "@/lib/actions/user.action";
+import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
@@ -60,12 +61,12 @@ export async function POST(req: Request) {
     const mongouser = CreateUser({
       clerkId: id,
 
-      name: `${first_name} ${last_name}`,
+      name: `${first_name}${last_name}` ? ` ${last_name}` : ``,
       email: email_addresses[0].email_address,
       picture: image_url,
       joinedAt: new Date(),
     });
-    return new Response("user created", { status: 200 });
+    return NextResponse.json({ meassage: "ok", user: mongouser });
   }
 
   if (eventType === "user.deleted") {
