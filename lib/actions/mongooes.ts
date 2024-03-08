@@ -4,7 +4,7 @@ let isConnected: boolean = false;
 
 export const connectToDatabase = async () => {
   mongoose.set("strictQuery", true);
-  if (!process.env.MONGODB_URI) {
+  if (!process.env.MONGODB_URL) {
     throw new Error("MONGODB_URI is missing 🔴");
   }
   if (isConnected) {
