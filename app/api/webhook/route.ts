@@ -53,10 +53,13 @@ export async function POST(req: Request) {
   // Get the ID and type
 
   const eventType = evt.type;
+  console.log("Event type", eventType);
+  console.log("Event data", evt.data);
 
   if (eventType === "user.created") {
     // Do something with the user created event
     const { id, email_addresses, first_name, last_name, image_url } = evt.data;
+    console.log("User created");
 
     const mongouser = CreateUser({
       clerkId: id,
@@ -64,8 +67,9 @@ export async function POST(req: Request) {
       name: `${first_name}${last_name}` ? ` ${last_name}` : ``,
       email: email_addresses[0].email_address,
       picture: image_url,
-      joinedAt: new Date(),
     });
+
+    console.log("User created", mongouser);
     return NextResponse.json({ meassage: "ok", user: mongouser });
   }
 

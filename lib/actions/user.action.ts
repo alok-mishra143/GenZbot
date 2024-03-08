@@ -9,7 +9,6 @@ interface UserModel {
   email: string;
   password?: string;
   picture: string;
-  joinedAt: Date;
 }
 
 interface delUser {
@@ -20,6 +19,7 @@ export async function CreateUser(UserData: UserModel) {
   try {
     connectToDatabase();
     const newUser = User.create(UserData);
+    console.log("User created", newUser);
     return newUser;
   } catch (error) {
     console.log("Error creating user", error);

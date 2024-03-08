@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { UserButton } from "@clerk/nextjs";
+import { connectToDatabase } from "@/lib/actions/mongooes";
 
 export default function Home() {
   return (

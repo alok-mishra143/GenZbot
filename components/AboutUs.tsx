@@ -63,7 +63,6 @@ const AboutUs: React.FC<AboutUsProps> = ({ className }: AboutUsProps) => {
       <div className="flex items-center justify-center flex-col">
         <Image
           src={"/Genzbot.png"}
-          lazyRoot="genzbot"
           width={800}
           height={800}
           alt="genzbot"
