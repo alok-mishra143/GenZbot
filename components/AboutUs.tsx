@@ -8,8 +8,9 @@ import { CardDescription, CardTitle } from "./ui/card";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import { USERS } from "@/lib/constant";
-import { randomUUID } from "crypto";
+
 import TitleSection from "./TitleSection";
+import Image from "next/image";
 
 interface AboutUsProps {
   className?: string;
@@ -17,51 +18,68 @@ interface AboutUsProps {
 
 const AboutUs: React.FC<AboutUsProps> = ({ className }: AboutUsProps) => {
   return (
-    <div id="about" className="">
-      <div className="max-w-3xl mt-8 p-4">
-        <h1 className="text-4xl font-bold mb-6">About Us</h1>
-        <p className="mb-4">
-          Welcome to our website! We are GenzBot, a friendly chatbot created
-          using advanced language models. Our mission is to assist and provide
-          information to users like you in a conversational manner.
-        </p>
-        <p className="mb-4">
-          Whether you have questions, need assistance, or just want to chat,
-          we&apos;re here for you 24/7. Feel free to interact with us and
-          explore the capabilities of natural language processing.
-        </p>
+    <div id="about">
+      <div className="mb-10">
+        <div className=" mt-8 p-4 flex flex-col ">
+          <h1 className="text-4xl font-bold mb-6">About Us</h1>
 
-        <p className="mb-4 ">
-          In addition to our primary chatbot, we&apos;re thrilled to introduce
-          GenZ-bot, a tech-savvy virtual assistant designed with the vibrant
-          spirit of Generation Z in mind. GenZ-bot is not your average bot;
-          it&apos;s here to bring a fresh perspective to conversations and share
-          the latest trends in technology, coding, and pop culture.
-        </p>
-        <p className="mb-4 ">
-          GenZ-bot is more than just a coding assistant; it&apos;s your go-to
-          source for memes, tech news, and casual banter. Whether you&apos;re a
-          seasoned developer or just starting your coding journey, GenZ-bot is
-          ready to chat, assist, and keep you entertained.
-        </p>
-        <p className="mb-4 ">
-          As we continue to evolve and innovate in the world of conversational
-          AI, our commitment remains strong making technology accessible,
-          engaging, and enjoyable for users of all backgrounds. We&apos;re
-          excited to have you on this journey with us!
-        </p>
+          <div className="flex flex-col ">
+            <p className="mb-4">
+              Welcome to our website! We are GenzBot, a friendly chatbot created
+              using advanced language models. Our mission is to assist and
+              provide information to users like you in a conversational manner.
+            </p>
+            <p className="mb-4">
+              Whether you have questions, need assistance, or just want to chat,
+              we&apos;re here for you 24/7. Feel free to interact with us and
+              explore the capabilities of natural language processing.
+            </p>
+
+            <p className="mb-4 ">
+              In addition to our primary chatbot, we&apos;re thrilled to
+              introduce GenZ-bot, a tech-savvy virtual assistant designed with
+              the vibrant spirit of Generation Z in mind. GenZ-bot is not your
+              average bot; it&apos;s here to bring a fresh perspective to
+              conversations and share the latest trends in technology, coding,
+              and pop culture.
+            </p>
+            <p className="mb-4 ">
+              GenZ-bot is more than just a coding assistant; it&apos;s your
+              go-to source for memes, tech news, and casual banter. Whether
+              you&apos;re a seasoned developer or just starting your coding
+              journey, GenZ-bot is ready to chat, assist, and keep you
+              entertained.
+            </p>
+            <p className="mb-4 ">
+              As we continue to evolve and innovate in the world of
+              conversational AI, our commitment remains strong making technology
+              accessible, engaging, and enjoyable for users of all backgrounds.
+              We&apos;re excited to have you on this journey with us!
+            </p>
+          </div>
+        </div>
       </div>
 
-      <TitleSection
-        pill="🌟Join With Us"
-        title="...
+      <div className="flex items-center justify-center flex-col">
+        <Image
+          src={"/Genzbot.png"}
+          lazyRoot="genzbot"
+          width={800}
+          height={800}
+          alt="genzbot"
+          className="border-[1px] border-purple-700 rounded-3xl min-w-[250px] mb-5"
+        />
+        <TitleSection
+          pill="🌟Join With Us"
+          title="...
       
       "
-      />
+        />{" "}
+      </div>
 
       <section className="relative">
         <div className="w-full blur-[120px] rounded-full h-32 absolute bg-brand-primaryPurple/50 -z-10 top-56" />
-        <div className="mt-20 px-4 sm:px-6 flex flex-col overflow-x-hidden overflow-visible">
+        <div className="mt-20 px-4 sm:px-6 flex flex-col overflow-x-hidden overflow-visible items-center justify-center">
           <TitleSection
             pill="✨ Your Workspace, Perfected"
             title="A Platform for Everyone"

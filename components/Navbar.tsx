@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import React from "react";
-import { motion } from "framer-motion";
+import { UserButton, useAuth } from "@clerk/nextjs";
 
 const Navbar = () => {
+  const isAuth = useAuth();
   return (
     <div className="fixed mt-8 left-1/2 -translate-x-1/2 z-50 backdrop-blur-3xl flex items-center justify-between w-full sm:w-[500px] md:w-[500px] bg-white/5 h-10 rounded-3xl text-white border-purple-900 border-[1px]">
       <Link href={"/"}>
@@ -39,8 +40,17 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
+      {isAuth ? (
+        <UserButton />
+      ) : (
+        <Link href={"/sign-in"} className="mr-2">
+          Login
+        </Link>
+      )}
 
-      <div className="bg-purple-700 blur-sm  mr-2 h-5 w-5 rounded-full"></div>
+      <div
+        className={`bg-purple-700 blur-md mr-2  h-5 w-5 rounded-full absolute right-2  animate-pulse`}
+      ></div>
     </div>
   );
 };

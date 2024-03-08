@@ -142,3 +142,19 @@ ol,
 ul {
   @apply dark:text-washed-purple-700;
 }
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #030014;
+  border-radius: 20px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #2600ff;
+  border-radius: 20px;
+}

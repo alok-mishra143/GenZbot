@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { UserButton } from "@clerk/nextjs";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
     >
       <div className="w-screen h-screen ">
         <Navbar />
+
         <div className="relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <div className="flex flex-col items-center text-center">
             <div className="flex items-center">
@@ -31,7 +33,7 @@ export default function Home() {
                 with GenZ{" "}
                 <span className="group relative">
                   Bot
-                  <span className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-purple-600 via-purple-700 to-purple-950 w-full transform origin-left scale-x-100  transition-transform rounded-full "></span>
+                  <span className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-purple-600 via-purple-700 to-purple-950 w-full transform origin-left scale-x-100  transition-transform rounded-full animate-pulse"></span>
                 </span>
               </h1>
             </div>

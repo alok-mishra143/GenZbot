@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
-import { Textarea } from "./ui/textarea";
+import { useState } from "react";
 import { toast } from "./ui/use-toast";
+import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 
 const MiddleBar = () => {
@@ -54,10 +54,6 @@ const MiddleBar = () => {
           aiAnswer.text +
           "\n" // Update message with AI answer
       );
-
-      const formattedAiAnswer = aiAnswer.error
-        ? "Sorry, I could not provide an answer to your question, please try again."
-        : aiAnswer.text.replace(/\n/g, "<br />");
     } catch (error) {
       console.error(error);
       // Handle errors here, e.g., show an error message
