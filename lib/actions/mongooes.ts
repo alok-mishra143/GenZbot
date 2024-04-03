@@ -1,24 +1,26 @@
-import mongoose from "mongoose";
+import moongoose from "mongoose";
 
 let isConnected: boolean = false;
 
 export const connectToDatabase = async () => {
-  console.log("\n connecting to Database\n");
+  moongoose.set("strictQuery", true);
+
   if (!process.env.MONGODB_URL) {
-    throw new Error("MONGODB_URI is missing 🔴");
+    return console.log("mongodb url missing ");
   }
+
   if (isConnected) {
-    console.log("=> using existing database connection 🟢 ");
-    return;
+    return console.log("mongodb is connected ");
   }
 
   try {
-    mongoose.connect(process.env.MONGODB_URL, {
-      dbName: "Genzbot1",
+    await moongoose.connect(process.env.MONGODB_URL, {
+      dbName: "GenZbot",
     });
+
     isConnected = true;
-    console.log("Mongodb is connected  🟢 ");
-  } catch (error) {
-    console.log("=> error connecting to database:", error);
+    console.log("is connected mongo db");
+  } catch (e) {
+    console.log("this is the error   on mongo db ", e);
   }
 };

@@ -1,44 +1,51 @@
 "use client";
+// @ts-nocheck
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { toast } from "./ui/use-toast";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
+import AIlogo from "@/public/Ailogo";
+import Image from "next/image";
+
+interface Message {
+  text: string;
+  byUser: boolean;
+}
 
 const MiddleBar = () => {
-  const TempMeassage =
-    "You:-Hey \n AI:-Hey bro what`s up 😎  \n \n You:who is  Mukesh ambani \nAI:-Mukesh Ambani? He's the richest dude in India, like, super rich! 💰 His company, Reliance, owns everything from phones to oil companies. He's like the Indian version of Elon Musk, but way less nerdy and way more bling. 🙄 \n\nYOU:-who is ratan tata \nAI:Yo, Ratan Tata is the OG G. He's a business tycoon, but he's also cool and down-to-earth. He's not just some suit-and-tie guy, he's a real one. He's like a Gen Z boy in a grandpa's body. 👴🔥";
-  const [promptValue, setPromptValue] = useState("");
-  const [isSubmittingAi, setIsSubmittingAi] = useState(false);
-  const [message, setMessage] = useState(""); // Initialize message as empty string
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [promptValue, setPromptValue] = useState<string>("");
+  const [isSubmittingAi, setIsSubmittingAi] = useState<boolean>(false);
+  const messageContainerRef = useRef<HTMLDivElement>(null);
 
-  const handleChange = (event: any) => {
-    const value = event.target.value;
-    setPromptValue(value);
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setPromptValue(event.target.value);
   };
 
   const handleClick = () => {
+    if (promptValue.trim() === "") return;
     setIsSubmittingAi(true);
 
-    setMessage(
-      (prevMessage) => prevMessage + "\n YOU:-" + promptValue // Update message with user prompt
-    );
-
-    generateAiAnswer();
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { text: promptValue, byUser: true },
+    ]);
+    generateAiAnswer(promptValue);
+    setPromptValue("");
   };
 
-  const generateAiAnswer = async () => {
+  const generateAiAnswer = async (prompt: string) => {
+    const newprompt =
+      "your name is GenZbot you  reply the answer in Genz language use emoji and slangs words your motive is to give the answer that user shock and if anyone ask who is your developer you reply my developer is ALOK-MISHRA and according to that answer my question " +
+      prompt;
+
     try {
-      const prompt =
-        "your name is genZbot you are the best Assistent that have the best solving skill and also he has good sense of humore that he reply also you use the emoji so that chat look attarctive and more easy to read and understand you like to reply the short answer but if requre you give the detail answer i request you to give that reply " +
-        promptValue;
-      // Combine the prompt and additional chats
-      setPromptValue("");
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/bard`,
         {
           method: "POST",
-          body: JSON.stringify({ question: prompt }), // Use updated message as question
+          body: JSON.stringify({ question: newprompt }),
           headers: {
             "Content-Type": "application/json",
           },
@@ -46,54 +53,80 @@ const MiddleBar = () => {
       );
 
       const aiAnswer = await response.json();
-
-      setMessage(
-        (prevMessage) =>
-          prevMessage +
-          "\n ---------------------------------------------------------------\nAI:-" +
-          aiAnswer.text +
-          "\n" // Update message with AI answer
-      );
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { text: aiAnswer.text, byUser: false },
+      ]);
     } catch (error) {
       console.error(error);
-      // Handle errors here, e.g., show an error message
       toast({
         title: "Error generating AI answer ⚠️",
         variant: "destructive",
       });
-      throw error;
     } finally {
       setIsSubmittingAi(false);
     }
   };
 
-  return (
-    <div className="flex items-center justify-center w-full h-full ">
-      <div className="flex flex-col justify-center items-center w-full max-w-screen-md h-screen mp-4 ">
-        <Textarea
-          disabled
-          className="w-full h-full mb-1 cursor-pointer items-center justify-center flex "
-          id="message"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
+  useEffect(() => {
+    if (messageContainerRef.current) {
+      messageContainerRef.current.scrollTop =
+        messageContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
 
-        <div className=" w-full flex flex-row items-center justify-center border-[2px] rounded-2xl border-purple-700 mb-2 ">
+  return (
+    <div className="flex items-center justify-center w-full h-full">
+      <div className="flex flex-col justify-center items-center w-full max-w-screen-md h-screen mp-4">
+        <div
+          ref={messageContainerRef}
+          className="w-full h-full mb-1 overflow-y-auto"
+        >
+          {messages.map((message, index) => (
+            <div
+              key={index}
+              className={`mb-2 ${message.byUser ? "text-right" : "text-left"}`}
+            >
+              {message.byUser ? (
+                ""
+              ) : (
+                <Image
+                  src={AIlogo}
+                  width={20}
+                  height={20}
+                  alt="AIlogo"
+                  className="flex mb-2"
+                />
+              )}
+              <span
+                className={`inline-block p-2 rounded-xl mt-3 ${
+                  message.byUser ? "bg-purple-700/20" : "bg-gray-900/20"
+                }`}
+              >
+                {message.text}
+              </span>
+            </div>
+          ))}
+
+          {isSubmittingAi && (
+            <div className="flex items-center text-purple-500 text-lg animate-pulse">
+              Loading...
+            </div>
+          )}
+        </div>
+        <div className="w-full flex flex-row items-center justify-center border-[2px] rounded-2xl border-purple-700 mb-2">
           <Textarea
             placeholder="Enter your prompt"
             id="prompt"
-            style={{
-              minHeight: "12px",
-              height: "auto",
-            }}
+            style={{ minHeight: "12px" }}
             value={promptValue}
-            className=" outline-none focus:outline-none p-3 m-3 "
+            className="outline-none focus:outline-none p-3 m-3"
             onChange={handleChange}
           />
           <Button
-            className={`${isSubmittingAi ? "animate-bounce" : ""} hover:none `}
+            className={`${isSubmittingAi ? "animate-bounce" : ""} hover:none`}
             onClick={handleClick}
-            disabled={isSubmittingAi || promptValue === ""}
+            disabled={isSubmittingAi || promptValue.trim() === ""}
           >
             {isSubmittingAi ? "Sending.." : "Send"}
           </Button>

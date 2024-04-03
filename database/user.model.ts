@@ -6,7 +6,6 @@ export interface IUser extends Document {
   email: string;
   password?: string;
   picture: string;
-  onboarded: boolean;
   joinedAt: Date;
 }
 

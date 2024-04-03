@@ -23,6 +23,7 @@ export const POST = async (request: Request) => {
     // Handle the rest of your code here...
 
     // Add a return statement here, e.g., return a success response
+
     return NextResponse.json({ text });
   } catch (error) {
     // Handle errors here
